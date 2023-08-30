@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Page with Sidebar</title>
+  <style>
+    body {
+      background-image: url('/Pictures/Message.jpg');
+      background-size: cover; /* This will cover the entire viewport */
+      background-attachment: fixed; /* This will prevent the image from repeating in case it's too small for the container */
+      background-position: center center;
+    }
+
+    .openbtn:hover {
+      background-color: white;
+    }
+
+    .container {
+
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: rgba(0,1,54,0.9);
+      color: white;
+      padding: 15px;
+      height: 100vh;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      right: -280px;
+      top: 0;
+      transition: right 0.4s ease;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar li:hover {
+      background-color: #34495e;
+    }
+
+    .closebtn, .openbtn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0056b3;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      transition: margin-left 0.4s ease;
+    }
+
+
+    .profile-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .ret {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+      text-align: center;
+    }
+
+    .profile-photo  img{
+      width: 100%;
+      height: auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bottom-options {
+      position: absolute;
+      bottom: 30px;
+    }
+    .search-container {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: rgba(255,255,255,0.95);
+      border-radius: 5px;
+      width: 400px;
+      margin: 20px;
+    }
+
+
+    #messageTextarea {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: vertical; /* Allow the user to resize textarea vertically only */
+      height: 200px;
+    }
+
+    .box {
+      margin: 20px;
+      width: 600px;
+      padding: 15px;
+      height: auto;
+      background-color: rgba(255,255,255,0.8); /* Background color for boxes */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .box img {
+      width: 100%;
+      height: auto;
+    }
+
+    .navbar {
+      width: 500px;
+      margin-bottom: 50px;
+      background-color: white;
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      border: #0056b3 1px solid;
+    }
+
+    .navbar span {
+      margin: 0 15px;
+      color: #0056b3;
+      cursor: pointer;
+    }
+
+    .content div {
+      width: 200px;
+      height: 150px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .underline {
+      text-decoration: underline;
+    }
+    button[type="submit"] {
+      background-color: #4CAF50;  /* A green color */
+      border: none;                /* No border */
+      color: white;               /* White text */
+      padding: 12px 24px;         /* Top-bottom and left-right padding */
+      text-align: center;         /* Center the text (not really needed as button text is centered by default) */
+      text-decoration: none;      /* Remove any underline */
+      display: inline-block;      /* Make it inline */
+      font-size: 16px;            /* Font size */
+      margin: 4px 2px;            /* Some margin */
+      cursor: pointer;            /* Hand cursor on hover */
+      border-radius: 8px;         /* Rounded corners */
+      transition: 0.3s;           /* Smooth transition for hover effects */
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;  /* Slightly darker green when hovering */
+    }
+
+
+
+  </style>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("userSidebar");
+      const content = document.querySelector(".main-content");
+
+      if (sidebar.style.right === "0px") {
+        sidebar.style.right = "-280px";
+        content.style.marginRight = "0";
+      } else {
+        sidebar.style.right = "0px";
+        content.style.marginRight = "280px";
+      }
+    }
+    function my_page() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher';
+    }
+    function registration() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/registration';
+    }
+    function dashboard() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/dashboard';
+    }
+    function settings() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/set_profile';
+    }
+    function logout() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/logout';
+    }
+    function feedback() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/feedback';
+    }
+
+    function message() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/message';
+    }
+    function notification() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/notification';
+    }
+    function grades() {
+      window.location.href = '/teacher/grades';
+    }
+
+
+
+  </script>
+</head>
+
+<body>
+<div class="container">
+  <div class="sidebar" id="userSidebar">
+    <button class="closebtn" onclick="toggleSidebar()">×</button>
+    <h3>User Profile</h3>
+    <ul>
+      <li onclick="my_page()">My Page</li>
+      <li onclick="settings()">Settings</li>
+      <li onclick="dashboard()">Dashboard</li>
+      <li onclick="grades()">Grades</li>
+      <li onclick="registration()">Registration</li>
+      <li onclick="message()">Message</li>
+      <li onclick="notification()">Notification</li>
+
+    </ul>
+    <div class="bottom-options" >
+      <ul>
+        <li onclick="feedback()">Feedback</li>
+        <li onclick="logout()">Log Out</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="main-content">
+    <button class="openbtn" onclick="toggleSidebar()">☰ Open User Menu</button>
+
+    <div class="ret">
+
+
+      <div class="search-container">
+        <h3>Messages</h3>
+      </div>
+
+      <div class="navbar" >
+        <span  id="my_message" >My messages</span>
+        <span id="from_message" >From Messages</span>
+        <span id="send_message">Send Message</span>
+      </div>
+
+      <div id="my_message_show">
+
+        <div th:each="x : ${my_messages}">
+
+          <div class="box">
+            <h3 th:text="'To : ' + ${x.getTo_username()}"></h3>
+            <p th:text="'Viewed : ' + ${x.viewed}"></p>
+            <p th:text="'Posted at : ' + ${x.getPosted_date().toString().split('[.]')[0].replace('T', ' ')}" ></p>
+            <textarea readonly id="messageTextarea" th:text="${x.getText()}"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="from_message_show">
+
+        <div th:each="x : ${from_messages}">
+
+          <div class="box">
+            <h3 th:text="'From : ' + ${x.getFrom_username()}"></h3>
+            <p th:text="'Posted at : ' + ${x.getPosted_date().toString().split('[.]')[0].replace('T', ' ')}" ></p>
+            <textarea readonly id="messageTextarea" th:text="${x.getText()}"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="send_message_show">
+
+        <div class="box">
+          <form th:method="post" th:action="@{/teacher/message}" th:object="${send_message}" id="form">
+            <h3>To Username(Teacher)</h3>
+            <input type="text" th:field="*{to_username}" th:value="${send_message.getTo_username()}" required><br/><br/>
+            <span style="color: red" th:if="${#fields.hasErrors('to_username')}" th:errors="*{to_username}"></span>
+            <h3>Write here your Context</h3>
+            <textarea id="messageTextarea" th:field="*{text}" th:value="${send_message.getText()}" required>
+          </textarea>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+</div>
+
+
+<script>
+
+  document.getElementById("my_message_show").style.display = "none";
+  document.getElementById("from_message_show").style.display = "none";
+  document.getElementById("send_message_show").style.display = "none";
+
+
+
+  document.getElementById("my_message").onclick = function () {
+    var my_message_show = document.getElementById("my_message_show");
+    var from_message_show = document.getElementById("from_message_show");
+    var send_message_show = document.getElementById("send_message_show");
+
+    my_message_show.style.display = "block";
+    from_message_show.style.display = "none";
+    send_message_show.style.display = "none";
+
+  }
+
+  document.getElementById("from_message").onclick = function () {
+    var my_message_show = document.getElementById("my_message_show");
+    var from_message_show = document.getElementById("from_message_show");
+    var send_message_show = document.getElementById("send_message_show");
+
+    from_message_show.style.display = "block";
+    my_message_show.style.display = "none";
+    send_message_show.style.display = "none";
+
+  }
+
+  document.getElementById("send_message").onclick = function () {
+    var my_message_show = document.getElementById("my_message_show");
+    var from_message_show = document.getElementById("from_message_show");
+    var send_message_show = document.getElementById("send_message_show");
+
+    send_message_show.style.display = "block";
+    my_message_show.style.display = "none";
+    from_message_show.style.display = "none";
+
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    let navbarItems = document.querySelectorAll('.navbar span');
+
+    navbarItems.forEach(item => {
+      item.addEventListener('click', function() {
+        navbarItems.forEach(nav => nav.classList.remove('underline'));
+        item.classList.toggle('underline');
+      });
+    });
+
+  });
+
+
+</script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  var isAliveJS = [[${send_message_error}]];
+
+  if(isAliveJS) {
+    document.getElementById("send_message_show").style.display = "block";
+
+  }
+
+  /*]]>*/
+</script>
+
+</body>
+
+</html>

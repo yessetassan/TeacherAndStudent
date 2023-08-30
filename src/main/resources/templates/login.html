@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            text-align: left;
+            width: 300px;
+            padding: 20px;
+            border-radius: 15px;
+            height: auto;
+            border: #0056b3 1px solid;
+        }
+
+        .login-container form {
+            margin: 20px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2d87f0;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #2567c4;
+        }
+
+        .register {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(35,161,36,0.9);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .register:hover {
+            background-color: rgba(57,161,79,0.9)
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+
+    <h2>Login</h2>
+    <form th:method="post" th:action="@{/login}">
+        <h4>Username</h4>
+        <input type="text" class="login-input" name="username" id="username" placeholder="Username" required>
+        <h4>Password</h4>
+        <input type="password" class="login-input" name="password" id="password" placeholder="Password" required>
+        <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <form th:method="get" th:action="@{/registration/student}">
+        <input type="submit" value="Register as a Student" class="register">
+    </form>
+    <form th:method="get" th:action="@{/registration/teacher}">
+        <input type="submit" value="Register as a Teacher" class="register">
+    </form>
+
+
+</div>
+
+</body>
+</html>

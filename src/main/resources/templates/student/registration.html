@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Page with Sidebar</title>
+    <style>
+        body {
+
+        }
+
+        .container {
+
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: rgba(0,1,54,0.9);
+            color: white;
+            padding: 15px;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            right: -280px;
+            top: 0;
+            transition: right 0.4s ease;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .sidebar li:hover {
+            background-color: #34495e;
+        }
+
+        .closebtn, .openbtn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            transition: margin-left 0.4s ease;
+        }
+
+        .profile-container {
+            display: flex; /* Use Flexbox */
+            justify-content: space-between; /* Distribute boxes with space between */
+            align-items: center; /* Center items vertically */
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 90px;
+            width: calc(100% - 200px);
+        }
+
+        .profile-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .ret {
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content vertically */
+            justify-content: center;
+        }
+        .profile-photo  img{
+            width: 100%;
+            height: auto;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-options {
+            position: absolute;
+            bottom: 30px;
+        }
+        .search-container {
+            display: flex;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden; /* To apply the border-radius for the button */
+        }
+
+        .search-input {
+            flex: 1; /* Take all available space */
+            border: none;
+            padding: 10px 20px;
+            outline: none;
+            font-size: 18px;
+        }
+
+        .search-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        .box {
+            padding-bottom: 15px;
+            margin: 20px;
+            width: 300px; /* Take full width of parent */
+            height: auto; /* Fixed height for each box */
+            background-color: rgba(255,255,255,0.4); /* Background color for boxes */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+            border: #0056b3 1px solid;
+            border-radius: 15px;
+        }
+
+        .box img {
+            width: 100%;
+            height: auto;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .in_basket {
+            background-color: white;
+            color: blue;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content vertically */
+            justify-content: center;
+            border: #0056b3 1px solid;
+            border-radius: 15px;
+        }
+
+        .openbtn:hover {
+            background-color: white;
+        }
+        .box input[type="submit"] {
+
+        }
+    </style>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("userSidebar");
+            const content = document.querySelector(".main-content");
+
+            if (sidebar.style.right === "0px") {
+                sidebar.style.right = "-280px";
+                content.style.marginRight = "0";
+            } else {
+                sidebar.style.right = "0px";
+                content.style.marginRight = "280px";
+            }
+        }
+        function my_page() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student';
+        }
+        function registration() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/registration';
+        }
+        function dashboard() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/dashboard';
+        }
+        function settings() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/set_profile';
+        }
+        function logout() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/logout';
+        }
+        function feedback() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/feedback';
+        }
+
+        function message() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/message';
+        }
+        function notification() {
+            // This function can be used to navigate to different sections or perform different actions
+            window.location.href = '/student/notification';
+        }
+        function grades() {
+            window.location.href = '/student/grades';
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="sidebar" id="userSidebar">
+        <button class="closebtn" onclick="toggleSidebar()">×</button>
+        <h3>User Profile</h3>
+        <ul>
+            <li onclick="my_page()">My Page</li>
+            <li onclick="settings()">Settings</li>
+            <li onclick="dashboard()">Dashboard</li>
+            <li onclick="grades()">Grades</li>
+            <li onclick="registration()">Registration</li>
+            <li onclick="message()">Message</li>
+            <li onclick="notification()">Notification</li>
+
+        </ul>
+        <div class="bottom-options" >
+            <ul>
+                <li onclick="feedback()">Feedback</li>
+                <li onclick="logout()">Log Out</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <button class="openbtn" onclick="toggleSidebar()">☰ Open User Menu</button>
+
+        <div class="ret">
+
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+                <button id="searchButton" class="search-button">🔍</button>
+            </div>
+
+            <div th:each="x : ${subjects}">
+
+                <div class="box" th:data-name="${x.getFull_name()}">
+                    <img th:src="@{/elements/{file} (file = ${x.getPicture()})}">
+                    <h3>Course Name</h3>
+                    <p th:text="${x.getFull_name()}"></p>
+                    <div th:if="${!student.getStudent_subject().contains(x)}">
+                        <form th:method="get" th:action="@{/student/registration/{s_id} (s_id = ${x.getId()})}" >
+                            <input type="submit" value="Sign up" class="submit-button">
+                        </form>
+                    </div>
+                    <div th:if="${student.getStudent_subject().contains(x)}">
+                        <input type="submit" value="In basket"  id="already_in_basket" class="in_basket">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('searchButton').addEventListener('click', filterSubjects);
+    document.getElementById('searchInput').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            filterSubjects();
+        }
+    });
+
+    function filterSubjects() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+        const boxes = document.querySelectorAll('.box');
+
+        boxes.forEach(box => {
+            const subjectName = box.getAttribute('data-name').toLowerCase();
+
+            if (subjectName.includes(searchValue)) {
+                box.style.display = 'block'; // Show the box
+            } else {
+                box.style.display = 'none'; // Hide the box
+            }
+        });
+    }
+
+
+</script>
+
+</body>
+
+</html>

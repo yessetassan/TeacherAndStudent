@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Udemy-like Navbar</title>
+  <style>
+    .navbar {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    .navbar span {
+      margin: 0 15px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .content {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .content div {
+      width: 200px;
+      height: 150px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <span th:each="category : ${categories}" th:onclick="'showContent(\'' + ${category} + '\')'" th:text="${category}"></span>
+</div>
+<div class="content" id="content">
+  <!-- Content will appear here -->
+</div>
+
+<script>
+  function showContent(category) {
+    const contentDiv = document.getElementById('content');
+
+    // Clear current content
+    contentDiv.innerHTML = '';
+
+    let items = [];
+    switch (category) {
+      case 'Business':
+        items = businessCourses;
+        break;
+      case 'Communications':
+        items = communicationCourses;
+        break;
+      case 'Programming':
+        items = programmingCourses;
+        break;
+    }
+
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = `<strong>${item.name}</strong><br>${item.description}`;
+      contentDiv.appendChild(div);
+    });
+  }
+
+
+</script>
+</body>
+
+</html>

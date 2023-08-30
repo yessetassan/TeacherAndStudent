@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Page with Sidebar</title>
+  <style>
+    body {
+
+    }
+
+    .container {
+
+    }
+    .openbtn:hover {
+      background-color: white;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: rgba(0,1,54,0.9);
+      color: white;
+      padding: 15px;
+      height: 100vh;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      right: -280px;
+      top: 0;
+      transition: right 0.4s ease;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar li:hover {
+      background-color: #34495e;
+    }
+
+    .closebtn, .openbtn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0056b3;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      transition: margin-left 0.4s ease;
+    }
+
+    .profile-container {
+      display: flex; /* Use Flexbox */
+      justify-content: space-between; /* Distribute boxes with space between */
+      align-items: center; /* Center items vertically */
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 90px;
+      width: calc(100% - 200px);
+    }
+
+    .profile-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .ret {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+    }
+
+    .profile-photo {
+      margin: 100px;
+      width: 300px;
+      height: 350px;
+    }
+
+    .profile-photo  img{
+      width: 100%;
+      height: auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bottom-options {
+      position: absolute;
+      bottom: 30px;
+    }
+
+    .box {
+      margin: 20px;
+      width: 300px; /* Take full width of parent */
+      height: auto; /* Fixed height for each box */
+      background-color: rgba(255,255,255,0.95); /* Background color for boxes */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+      border: #0056b3 1px solid;
+      border-radius: 15px;
+    }
+
+    .box img {
+      width: 100%;
+      height: auto;
+    }
+
+    .submit-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    /*button:hover {*/
+    /*  background-color: #0056b3;*/
+    /*}*/
+
+    #postBox {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      width: 300px;
+      background: #fff;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    #postBox button[type="submit"] {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .upload-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+    }
+
+    .custom-file-upload {
+      display: inline-block;
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #fileName {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    #form {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+
+    }
+    #form input[type="text"] ,input[type="datetime-local"] {
+      width: 100%;
+    }
+    .file-uploader {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-label, .upload-btn {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .file-label:hover, .upload-btn:hover {
+      background-color: #0056b3;
+    }
+    .table-container {
+      width: 800px;
+      height: auto;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e5e5e5;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+
+  </style>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("userSidebar");
+      const content = document.querySelector(".main-content");
+
+      if (sidebar.style.right === "0px") {
+        sidebar.style.right = "-280px";
+        content.style.marginRight = "0";
+      } else {
+        sidebar.style.right = "0px";
+        content.style.marginRight = "280px";
+      }
+    }
+    function my_page() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher';
+    }
+    function registration() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/registration';
+    }
+    function dashboard() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/dashboard';
+    }
+    function settings() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/set_profile';
+    }
+    function logout() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/logout';
+    }
+    function feedback() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/feedback';
+    }
+
+    function message() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/message';
+    }
+    function notification() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/teacher/notification';
+    }
+    function grades() {
+      window.location.href = '/teacher/grades';
+    }
+
+
+  </script>
+</head>
+
+<body>
+<div class="container">
+  <div class="sidebar" id="userSidebar">
+    <button class="closebtn" onclick="toggleSidebar()">×</button>
+    <h3>User Profile</h3>
+    <ul>
+      <li onclick="my_page()">My Page</li>
+      <li onclick="settings()">Settings</li>
+      <li onclick="dashboard()">Dashboard</li>
+      <li onclick="grades()">Grades</li>
+      <li onclick="registration()">Registration</li>
+      <li onclick="message()">Message</li>
+      <li onclick="notification()">Notification</li>
+
+    </ul>
+    <div class="bottom-options" >
+      <ul>
+        <li onclick="feedback()">Feedback</li>
+        <li onclick="logout()">Log Out</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="main-content">
+    <button class="openbtn" onclick="toggleSidebar()">☰ Open User Menu</button>
+
+    <div class="ret">
+
+      <div class="box">
+        <h2>Grades</h2>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Passed_Date</th>
+            <th>Resource</th>
+            <th>Score</th>
+          </tr>
+          </thead>
+            <tbody>
+            <tr th:each="x : ${task_complete}">
+              <td>johndoe@example.com</td>
+              <td th:text="${x.getPassed_date()}"></td>
+              <td><a th:href="@{/elements/{file} (file = ${x.getStudent_file_name()})}" download>PDF file</a></td>
+              <td th:text="${x.getScore()}"></td>
+              <td><input type="text" name="score" th:value="${x.getScore()}"></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+
+<script>
+  // The JavaScript to toggle the form's visibility
+  document.getElementById("postBox").style.display = "none";
+  document.getElementById("showFormButton").onclick = function () {
+    var postBox = document.getElementById("postBox");
+    if (postBox.style.display === "block") {
+      postBox.style.display = "none";
+    } else {
+      postBox.style.display = "block";
+    }
+  }
+</script>
+
+<script>
+  function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const uploadStatus = document.getElementById('uploadStatus');
+
+    if (fileInput.files.length === 0) {
+      uploadStatus.textContent = "No file selected!";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    fetch('/upload', {
+      method: 'POST',
+      body: formData
+    })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                uploadStatus.textContent = "File uploaded successfully!";
+              } else {
+                uploadStatus.textContent = "File upload failed!";
+              }
+            })
+            .catch(() => {
+              uploadStatus.textContent = "Error uploading file.";
+            });
+  }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+    <style>
+        body {
+            text-align: center;
+            background-image: url('/Pictures/Agreement.webp');
+            background-size: cover; /* This will cover the entire viewport */
+            background-attachment: fixed; /* This will prevent the image from repeating in case it's too small for the container */
+            background-position: center center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 80px;
+            background-color: #f4f4f4;
+        }
+
+        .welcome {
+            margin: 10px;
+            width: 300px; /* Take full width of parent */
+            height: auto;
+
+            background-color: rgba(255,255,255,0.4); /* Center content horizontally */
+            border-radius: 30px;
+        }
+
+        .agreement {
+            margin: 100px;
+            width: 900px; /* Take full width of parent */
+            height: auto; /* Fixed height for each box */
+            background-color: rgba(255,255,255,0.95); /* Background color for boxes */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content vertically */
+            justify-content: center; /* Center content horizontally */
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="welcome">
+    <h2>Agreement</h2>
+</div>
+<div class="agreement">
+    <form th:method="post" th:action="@{/teacher/registration/agreement}">
+        <input type="hidden" name="id" th:value="${si.getId()}">
+        <p >Rules</p>
+        <div style="white-space: pre-line;">
+            Grammar: In languages, especially in English, "agreement" usually refers to the grammatical consistency required between subjects and verbs (subject-verb agreement) and between pronouns or nouns and their antecedents (pronoun-antecedent agreement).
+
+            Subject-Verb Agreement: The subject and verb in a sentence must agree in number (singular or plural). For instance, "She walks" (singular) vs. "They walk" (plural).
+
+            Pronoun-Antecedent Agreement: Pronouns must agree in number and gender with the noun they replace. For instance, "Each student must carry his or her book."
+
+            Legal: In legal contexts, "agreement rules" can refer to the clauses or provisions set forth in a contract or agreement document that both parties must adhere to.
+
+            Examples: Payment terms, termination clauses, confidentiality provisions, etc.
+            Software: In software user interfaces, "agreement rules" often refer to terms of service or user agreements that users must accept before using the software or service.
+
+            Examples: Acceptable use policies, data collection permissions, subscription terms, etc.
+            Organizations and Groups: In organizational contexts, "agreement rules" can refer to the set of rules or guidelines that members of an organization or group agree to follow.
+
+            Examples: Code of conduct, community guidelines, etc.
+            Trade: In international relations and trade, "agreement rules" can refer to the rules set forth in trade agreements between countries.
+
+            Technical Protocols: In technical contexts, like networking or data exchange, "agreement rules" can refer to the set of standards or protocols that systems agree to use for communication.
+        </div>
+        <br/><br/>
+        <input type="checkbox" id="agree"  required>
+        <label for="agree">I agree to the terms and conditions</label>
+        <br/><br/>
+        <input type="submit" value="Sign up Contract" class="submit-button">
+    </form>
+</div>
+
+</body>
+</html>

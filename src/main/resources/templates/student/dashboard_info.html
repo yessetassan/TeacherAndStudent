@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Page with Sidebar</title>
+  <style>
+    body {
+      background-image: url('/Pictures/Dashboard.jpg');
+      background-size: cover; /* This will cover the entire viewport */
+      background-attachment: fixed; /* This will prevent the image from repeating in case it's too small for the container */
+      background-position: center center;
+    }
+
+    .container {
+
+    }
+
+    .openbtn:hover {
+      background-color: white;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: rgba(0,1,54,0.9);
+      color: white;
+      padding: 15px;
+      height: 100vh;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      right: -280px;
+      top: 0;
+      transition: right 0.4s ease;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .sidebar li:hover {
+      background-color: #34495e;
+    }
+
+    .closebtn, .openbtn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0056b3;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      transition: margin-left 0.4s ease;
+    }
+
+
+    .profile-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .ret {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+    }
+
+
+    .profile-photo  img{
+      width: 100%;
+      height: auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bottom-options {
+      position: absolute;
+      bottom: 30px;
+    }
+
+    .box {
+      margin: 20px;
+      padding: 20px;
+      width: 600px; /* Take full width of parent */
+      height: auto; /* Fixed height for each box */
+      background-color: rgba(255,255,255,0.95); /* Background color for boxes */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+    }
+
+    .box img {
+      width: 100%;
+      height: auto;
+    }
+
+    #messageTextarea {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid rgba(21,15,54,0.9);
+      resize: vertical; /* Allow the user to resize textarea vertically only */
+      height: 200px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    #postBox , #postBox2{
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      width: 300px;
+      background: #fff;
+    }
+
+    #postBox  button[type="submit"] {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #postBox2   button[type="submit"] {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #fileName {
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    #form {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content vertically */
+      justify-content: center;
+
+    }
+    #form input[type="text"] ,input[type="datetime-local"] {
+      width: 100%;
+    }
+    .file-uploader {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-label, .upload-btn {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .file-label:hover, .upload-btn:hover {
+      background-color: #0056b3;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      font-size: 16px;
+      line-height: 1.5;
+      resize: vertical;
+      transition: border 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    textarea::placeholder {
+      color: #999;
+
+    }
+
+  </style>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("userSidebar");
+      const content = document.querySelector(".main-content");
+
+      if (sidebar.style.right === "0px") {
+        sidebar.style.right = "-280px";
+        content.style.marginRight = "0";
+      } else {
+        sidebar.style.right = "0px";
+        content.style.marginRight = "280px";
+      }
+    }
+    function my_page() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student';
+    }
+    function registration() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/registration';
+    }
+    function dashboard() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/dashboard';
+    }
+    function settings() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/set_profile';
+    }
+    function logout() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/logout';
+    }
+    function feedback() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/feedback';
+    }
+
+    function message() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/message';
+    }
+    function notification() {
+      // This function can be used to navigate to different sections or perform different actions
+      window.location.href = '/student/notification';
+    }
+    function grades() {
+      window.location.href = '/student/grades';
+    }
+
+
+  </script>
+
+
+</head>
+
+<body>
+<div class="container">
+  <div class="sidebar" id="userSidebar">
+    <button class="closebtn" onclick="toggleSidebar()">×</button>
+    <h3>User Profile</h3>
+
+    <ul>
+      <li onclick="my_page()">My Page</li>
+      <li onclick="settings()">Settings</li>
+      <li onclick="dashboard()">Dashboard</li>
+      <li onclick="grades()">Grades</li>
+      <li onclick="registration()">Registration</li>
+      <li onclick="message()">Message</li>
+      <li onclick="notification()">Notification</li>
+    </ul>
+
+    <div class="bottom-options" >
+      <ul>
+        <li onclick="feedback()">Feedback</li>
+        <li onclick="logout()">Log Out</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="main-content">
+    <button class="openbtn" onclick="toggleSidebar()">☰ Open User Menu</button>
+
+    <div class="ret">
+
+
+
+      <div th:each="x : ${task_set}">
+
+        <div th:if="${x.getTeacher_fileName() != null}">
+
+          <div class="box" >
+            <h3>Task Title</h3>
+            <p th:text="${x.getTaskName()}">
+            <h3>Download Resource</h3>
+            <a th:href="@{/elements/{file} (file = ${x.getTeacher_fileName()})}" download>PDF</a>
+            <h3>Posted Date</h3>
+            <p th:text="${x.getPosted_date().toString().replace('T', ' ')}"></p>
+            <h3>Deadline</h3>
+            <p th:text="${x.getDeadline().toString().replace('T', ' ')}"></p>
+
+            <form th:method="get" th:action="@{/student/dashboard/{s_id}/{task_id}/do_task
+              (s_id = ${x.getSubject_id()} , task_id = ${x.getId()})}">
+              <button type="submit">Do Task</button>
+            </form>
+          </div>
+
+        </div>
+
+        <div th:if="${x.getTeacher_fileName() == null}">
+
+          <div class="box" style="float: left" >
+            <h3>Announcement</h3>
+            <textarea id="messageTextarea" th:text="${x.getTaskName()}" readonly></textarea>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+
+</body>
+
+</html>
